@@ -35,8 +35,8 @@ def describe():
 
 def get_filepath():
     filepath = sys.argv[1]
-    dirname = os.path.dirname('/Users/vmalesev/Desktop/Ecole42_logistic_regression/data')
-    filepath = os.path.join(dirname, filepath)
+#    dirname = os.path.dirname('/Users/vmalesev/Desktop/Ecole42_logistic_regression/data')
+#    filepath = os.path.join(dirname, filepath)
 
     return filepath
 
