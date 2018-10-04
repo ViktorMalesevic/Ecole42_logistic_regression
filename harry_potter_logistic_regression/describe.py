@@ -24,18 +24,35 @@ def describe():
     
     count = list(np.count_nonzero(~np.isnan(data), axis=0))
     count.insert(0, 'Count')
-    #print('Count\t' + '\t'.join(np.array2string(count)))
-    h=h[:10]
-    count=count[:10]
-    print(tabulate([count], headers=h))
+    mean = list(np.mean(~np.isnan(data), axis=0))
+    mean.insert(0, 'Mean')
+    std = list(np.std(~np.isnan(data), axis=0))
+    std.insert(0, 'Standard Dev.')
+    min = list(np.min(~np.isnan(data), axis=0))
+    min.insert(0, 'Min.')
+    perc_25 = list(np.percentile(~np.isnan(data), 0.25, axis=0))
+    perc_25.insert(0, '25%')
+    perc_50 = list(np.percentile(~np.isnan(data), 0.5, axis=0))
+    perc_50.insert(0, '50%')
+    perc_75 = list(np.percentile(~np.isnan(data), 0.75, axis=0))
+    perc_75.insert(0, '75%')
+    max = list(np.max(~np.isnan(data), axis=0))
+    max.insert(0, 'Max')
 
-    # mean = np.mean(data, axis=1)
-    # std = np.std(data, axis=1)
-    # min = np.min(data, axis=1)
-    # perc_25 = np.percentile(data, 0.25, axis=1)
-    # perc_50 = np.percentile(data, 0.5, axis=1)
-    # perc_75 = np.percentile(data, 0.75, axis=1)
-    # max = np.max(data, axis=1)
+    #print('Count\t' + '\t'.join(np.array2string(count)))
+    h = h[:10]
+    count = count[:10]
+    mean = mean[:10]
+    std = std[:10]
+    min = min[:10]
+    perc_25 = perc_25[:10]
+    perc_50 = perc_50[:10]
+    perc_75 = perc_75[:10]
+    max = max[:10]
+
+    print(tabulate([count, mean, std, min, perc_25, perc_50, perc_75, max], headers=h))
+
+    #
 
     # print('Summary:')
     # display_data = [[utils.fmtp(count), utils.fmtp(mean), utils.fmtp(std),
