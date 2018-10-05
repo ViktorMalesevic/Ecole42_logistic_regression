@@ -10,17 +10,20 @@ import matplotlib as mpl
 from tabulate import tabulate
 
 
-def describe():
-    #filepath = get_filepath()
-    filepath = '../data/dataset_train.csv'
+def describe(filepath = '../data/dataset_train.csv', number_of_columns=15):
+    # filename = get_filename()
+    if get_filepath() is not None:
+        filepath = get_filepath()
+    # filepath = '../data/dataset_train.csv'
+    # filepath = filepath.join(filename)
     with open(filepath, 'r') as f:
       header = f.readline()
       h=header.split(',')
       h.insert(0, '')
 
     data = np.genfromtxt(filepath, delimiter=',', skip_header=1)
-    #data = data[:,1:]
-    #print('\t\t' + '\t'.join([i for i in header.split(',') if i!='Index']) + '\n')
+    # data = data[:,1:]
+    # print('\t\t' + '\t'.join([i for i in header.split(',') if i!='Index']) + '\n')
     
     count = list(np.count_nonzero(~np.isnan(data), axis=0))
     count.insert(0, 'Count')
@@ -39,16 +42,18 @@ def describe():
     max = list(np.max(~np.isnan(data), axis=0))
     max.insert(0, 'Max')
 
-    #print('Count\t' + '\t'.join(np.array2string(count)))
-    h = h[:10]
-    count = count[:10]
-    mean = mean[:10]
-    std = std[:10]
-    min = min[:10]
-    perc_25 = perc_25[:10]
-    perc_50 = perc_50[:10]
-    perc_75 = perc_75[:10]
-    max = max[:10]
+    # print('Count\t' + '\t'.join(np.array2string(count)))
+    if get_number_of_columns() is not None:
+        number_of_columns = int(get_number_of_columns())
+    h = h[:number_of_columns]
+    count = count[:number_of_columns]
+    mean = mean[:number_of_columns]
+    std = std[:number_of_columns]
+    min = min[:number_of_columns]
+    perc_25 = perc_25[:number_of_columns]
+    perc_50 = perc_50[:number_of_columns]
+    perc_75 = perc_75[:number_of_columns]
+    max = max[:number_of_columns]
 
     print(tabulate([count, mean, std, min, perc_25, perc_50, perc_75, max], headers=h))
 
@@ -66,12 +71,17 @@ def describe():
 
 
 def get_filepath():
-    filepath = sys.argv[1]
-#    dirname = os.path.dirname('/Users/vmalesev/Desktop/Ecole42_logistic_regression/data')
-#    filepath = os.path.join(dirname, filepath)
+    if sys.argv[1] is not None:
+        filepath = sys.argv[1]
+    # dirname = os.path.dirname('/Users/vmalesev/Desktop/Ecole42_logistic_regression/data')
+    # filepath = os.path.join(dirname, filepath)
 
     return filepath
 
+def get_number_of_columns():
+    if sys.argv[2] is not None:
+        number_of_columns = sys.argv[2]
+    return number_of_columns
 
 
 #if __name__ == "__main__":
