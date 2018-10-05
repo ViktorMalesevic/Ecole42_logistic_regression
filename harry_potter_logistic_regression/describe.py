@@ -1,24 +1,19 @@
 #!/usr/bin/env python
 
-import os
-import sys
 import numpy as np
-import matplotlib as mpl
-#from . import utils
-#import utils
-#import fmtp
 from tabulate import tabulate
+import utils as ul  # our own module
 
 
 def describe(filepath = '../data/dataset_train.csv', number_of_columns=15):
     # filename = get_filename()
-    if get_filepath() is not None:
-        filepath = get_filepath()
+    if ul.get_filepath() is not None:
+        filepath = ul.get_filepath()
     # filepath = '../data/dataset_train.csv'
     # filepath = filepath.join(filename)
     with open(filepath, 'r') as f:
       header = f.readline()
-      h=header.split(',')
+      h = header.split(',')
       h.insert(0, '')
 
     data = np.genfromtxt(filepath, delimiter=',', skip_header=1)
@@ -40,11 +35,11 @@ def describe(filepath = '../data/dataset_train.csv', number_of_columns=15):
     perc_75 = list(np.percentile(~np.isnan(data), 0.75, axis=0))
     perc_75.insert(0, '75%')
     max = list(np.max(~np.isnan(data), axis=0))
-    max.insert(0, 'Max')
+    max.insert(0, 'Max.')
 
     # print('Count\t' + '\t'.join(np.array2string(count)))
-    if get_number_of_columns() is not None:
-        number_of_columns = int(get_number_of_columns())
+    if ul.get_number_of_columns() is not None:
+        number_of_columns = int(ul.get_number_of_columns())
     h = h[:number_of_columns]
     count = count[:number_of_columns]
     mean = mean[:number_of_columns]
@@ -55,7 +50,8 @@ def describe(filepath = '../data/dataset_train.csv', number_of_columns=15):
     perc_75 = perc_75[:number_of_columns]
     max = max[:number_of_columns]
 
-    print(tabulate([count, mean, std, min, perc_25, perc_50, perc_75, max], headers=h))
+    print(tabulate([count, mean, std, min, perc_25, perc_50, perc_75, max],
+                   headers=h, floatfmt='.2f', tablefmt='github'))
 
     #
 
@@ -70,19 +66,5 @@ def describe(filepath = '../data/dataset_train.csv', number_of_columns=15):
     #                                       'Max']))
 
 
-def get_filepath():
-    if sys.argv[1] is not None:
-        filepath = sys.argv[1]
-    # dirname = os.path.dirname('/Users/vmalesev/Desktop/Ecole42_logistic_regression/data')
-    # filepath = os.path.join(dirname, filepath)
-
-    return filepath
-
-def get_number_of_columns():
-    if sys.argv[2] is not None:
-        number_of_columns = sys.argv[2]
-    return number_of_columns
-
-
-#if __name__ == "__main__":
+# if __name__ == "__main__":
 describe()
